@@ -13,7 +13,7 @@ import random
 from aicsimageio import AICSImage, imread
 from aicsimageio.writers import png_writer 
 from tqdm import tqdm
-from google.colab.patches import cv2_imshow
+# from google.colab.patches import cv2_imshow
 from aicsimageio.writers.ome_tiff_writer import OmeTiffWriter
 from tqdm import tqdm
 from timeit import default_timer as timer
@@ -93,7 +93,7 @@ def correct_channels(img):
 
 def change_train_file(zoomfactor, model_path):
   """This function changes the resolution value in the file: Vimeo7_dataset.py"""
-  file_path_2 = "/content/ZoomInterpolation/codes/test_new.py"
+  file_path_2 = "/home/user2/project/CAFI/ZS4Mic/codes/test_new.py"
   fh_2, abs_path_2 = mkstemp()
   with fdopen(fh_2,'w') as new_file:
     with open(file_path_2) as old_file:

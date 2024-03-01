@@ -70,7 +70,7 @@ def save_as_h5py(img_list, fraction_list, zt_list, file_nr, interpolate_location
     
     # saving all the images in the xyz dimension in a h5py file
     for image in img_list:
-      h5py_safe_location = f"/content/ZoomInterpolation/results/{image}.hdf5"
+      h5py_safe_location = f"/home/user2/project/CAFI/ZS4Mic/results/{image}.hdf5"
       h5py_safe_location_list.append(h5py_safe_location)
       with h5py.File(h5py_safe_location, 'w') as f:
         

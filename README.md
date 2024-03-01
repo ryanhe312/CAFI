@@ -2,6 +2,7 @@
 
 Link to the paper: [link](https://doi.org/10.1101/2021.11.02.466664)
 
+## Please replace `/home/user2/project/CAFI` to your own path.
 
 ## What is this?
 Content-aware frame interpolation (CAFI) provides a Deep Learning-based temporal super-resolution for fast bioimaging. It increases the frame rate of any microscope modality by interpolating an image in between two consecutive images via “intelligent” interpolation, providing a 2x increase in temporal or/and axial resolution. Here we provide the modified repositories of DAIN and Zooming SlowMo used in the CAFI 4 Microscopy Google Colab notebooks.

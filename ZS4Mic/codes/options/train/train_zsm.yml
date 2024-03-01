@@ -1,11 +1,11 @@
 #train_zsm.yml
 #### general settings
-name: LunaTokis_scratch_b16p32f5b40n7l1_600k_Vimeo_debug
+name: LunaTokis_scratch_b16p32f5b40n7l1_600k_Vimeo
 use_tb_logger: false #true
 model: VideoSR_base
 distortion: sr
-scale: 4
-gpu_ids: [0]  ### changes from [2] to [0] because I just use 1 gpu in google colab
+scale: 1
+gpu_ids: [4,5,6,7]  ### changes from [2] to [0] because I just use 1 gpu in google colab
 
 #### datasets
 datasets:
@@ -15,16 +15,16 @@ datasets:
     interval_list: [1]
     random_reverse: true #false
     border_mode: false
-    dataroot_GT: /content/gdrive/MyDrive/1.2_BIG_DATA_PhD_Project_2/6.ZoomInterpolation/20210112_Training_network_data/output/HR/vimeo7_train_GT.lmdb                ### change
-    dataroot_LQ: /content/gdrive/MyDrive/1.2_BIG_DATA_PhD_Project_2/6.ZoomInterpolation/20210112_Training_network_data/output/LR/vimeo7_train_LR7.lmdb              ### change
-    cache_keys: /content/gdrive/MyDrive/1.2_BIG_DATA_PhD_Project_2/6.ZoomInterpolation/20210112_Training_network_data/output/HR/vimeo7_train_GT.lmdb/Vimeo7_train_keys.pkl   ### change
+    dataroot_GT: /home/user2/project/CAFI/ZS4Mic/demo/Out_HR_LR/HR/vimeo7_train_x1_HR.lmdb
+    dataroot_LQ: /home/user2/project/CAFI/ZS4Mic/demo/Out_HR_LR/LR/vimeo7_train_x1_LR.lmdb
+    cache_keys: /home/user2/project/CAFI/ZS4Mic/demo/Out_HR_LR/HR/vimeo7_train_x1_HR.lmdb/Vimeo7_train_keys.pkl
 
     N_frames: 7   # can change also to 3 see what is the difference?
     use_shuffle: true
     n_workers: 3  # per GPU
-    batch_size: 16 
-    GT_size: 128  
-    LQ_size: 32
+    batch_size: 5
+    GT_size: 64
+    GT_size: 64
     use_flip: true
     use_rot: true
     color: RGB
@@ -42,18 +42,18 @@ network_G:
 
 #### path
 path:
-  pretrain_model_G: ~ 
+  pretrain_model_G: /home/user2/project/CAFI/ZS4Mic/experiments/pretrained_models/pretrained_1x.pth
   strict_load: false #true #
   resume_state: ~
 
 #### training settings: learning rate scheme, loss
 train:
-  lr_G: !!float 4e-4
+  lr_G: !!float 1e-5
   lr_scheme: CosineAnnealingLR_Restart
   beta1: 0.9
   beta2: 0.99
-  niter: 600000
-  warmup_iter: -1 #4000  # -1: no warm up
+  niter: 1000
+  warmup_iter: 4000 #4000  # -1: no warm up
   T_period: [150000, 150000, 150000, 150000]
   restarts: [150000, 300000, 450000]
   restart_weights: [1, 1, 1]
@@ -68,4 +68,4 @@ train:
 #### logger
 logger:
   print_freq: 100
-  save_checkpoint_freq: !!float 5e3
+  save_checkpoint_freq: !!float 1e2

@@ -168,13 +168,13 @@ class Vimeo7Dataset(data.Dataset):
                 img_GT = self._read_img_mc_BGR(self.GT_root, name_a, name_b, '{}.png'.format(v))
                 img_GT = img_GT.astype(np.float32) / 255.
             elif self.data_type == 'lmdb':
-                img_GT = util.read_img(self.GT_env, key + '_{}'.format(v), (3, 256, 448))
+                img_GT = util.read_img(self.GT_env, key + '_{}'.format(v), (3, 512, 512))
             else:               
                 img_GT = util.read_img(None, osp.join(self.GT_root, name_a, name_b, 'im{}.png'.format(v)))
             img_GT_l.append(img_GT)
                 
        #### get LQ images
-        LQ_size_tuple = (3, 64, 112) if self.LR_input else (3, 256, 448)
+        LQ_size_tuple = (3, 512, 512) if self.LR_input else (3,512, 512)
         img_LQ_l = []
         for v in self.LQ_frames_list:
             if self.data_type == 'mc':

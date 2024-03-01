@@ -6,9 +6,33 @@ import torch.nn.functional as F
 import models.modules.module_util as mutil
 from models.modules.convlstm import ConvLSTM, ConvLSTMCell
 try:
-    from models.modules.DCNv2.dcn_v2 import DCN_sep
+    from .dcn.deform_conv import ModulatedDeformConvPack, modulated_deform_conv
 except ImportError:
     raise ImportError('Failed to import DCNv2 module.')
+
+class DCN_sep(ModulatedDeformConvPack):
+    """Modulated deformable conv for deformable alignment.
+
+    Different from the official DCNv2Pack, which generates offsets and masks
+    from the preceding features, this DCNv2Pack takes another different
+    features to generate offsets and masks.
+
+    Ref:
+        Delving Deep into Deformable Alignment in Video Super-Resolution.
+    """
+
+    def forward(self, x, feat):
+        out = self.conv_offset_mask(feat)
+        o1, o2, mask = torch.chunk(out, 3, dim=1)
+        offset = torch.cat((o1, o2), dim=1)
+        mask = torch.sigmoid(mask)
+
+        return modulated_deform_conv(x, offset, mask, self.weight, self.bias,
+                                     self.stride, self.padding, self.dilation,
+                                     self.groups, self.deformable_groups)
+
+
+
 
 class PCD_Align(nn.Module):
     ''' Alignment module using Pyramid, Cascading and Deformable convolution
@@ -314,8 +338,8 @@ class LunaTokis(nn.Module):
         to_lstm_fea = []
         '''
         0: + fea1, fusion_fea, fea2
-        1: + ...    ...        ...  fusion_fea, fea2
-        2: + ...    ...        ...    ...       ...   fusion_fea, fea2
+#        out = self.lrelu(self.pixel_shuffle(self.upconv1(out)))
+#        out = self.lrelu(self.pixel_shuffle(self.upconv2(out)))
         '''
         for idx in range(N-1):
             fea1 = [
@@ -338,8 +362,8 @@ class LunaTokis(nn.Module):
 
         feats = feats.view(B*T, C, H, W)
         out = self.recon_trunk(feats)
-        out = self.lrelu(self.pixel_shuffle(self.upconv1(out)))
-        out = self.lrelu(self.pixel_shuffle(self.upconv2(out)))
+        # out = self.lrelu(self.pixel_shuffle(self.upconv1(out)))
+        # out = self.lrelu(self.pixel_shuffle(self.upconv2(out)))
 
         out = self.lrelu(self.HRconv(out))
         out = self.conv_last(out)

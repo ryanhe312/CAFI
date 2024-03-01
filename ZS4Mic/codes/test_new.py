@@ -25,14 +25,14 @@ def main():
     parser.add_argument('--corr', type=bool, default=False, help='Select zoom factor of the image')
     args = parser.parse_args()
 
-    scale = 4
+    scale = 1
     N_ot = 3 #7
     N_in = 1+ N_ot // 2
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
     #### model 
     #### TODO: change your model path here
-    model_path = '../experiments/pretrained_models/xiang2020zooming.pth'
+    model_path = '/home/user2/project/CAFI/ZS4Mic/experiments/pretrained_models/pretrained_1x.pth'
     model = Sakuya_arch.LunaTokis(64, N_ot, 8, 5, 40)
 
     #### dataset

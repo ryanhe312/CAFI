@@ -1,7 +1,7 @@
 #WORKING
 import os
 import sys
-sys.path.insert(0,'/content/ZoomInterpolation/load_functions')
+sys.path.insert(0,'/home/user2/project/CAFI/ZS4Mic/load_functions')
 from skimage import io
 import numpy as np
 from tqdm import tqdm
@@ -256,7 +256,7 @@ import random
 from aicsimageio import AICSImage, imread
 from aicsimageio.writers import png_writer 
 from tqdm import tqdm
-from google.colab.patches import cv2_imshow
+# from google.colab.patches import cv2_imshow
 from aicsimageio.writers.ome_tiff_writer import OmeTiffWriter
 from tqdm import tqdm
 from timeit import default_timer as timer
@@ -334,7 +334,7 @@ def correct_channels(img):
 
 def change_train_file(zoomfactor, model_path):
   """This function changes the resolution value in the file: Vimeo7_dataset.py"""
-  file_path_2 = "/content/ZoomInterpolation/codes/test_new.py"
+  file_path_2 = "/home/user2/project/CAFI/ZS4Mic/codes/test_new.py"
   fh_2, abs_path_2 = mkstemp()
   with fdopen(fh_2,'w') as new_file:
     with open(file_path_2) as old_file:
@@ -424,9 +424,9 @@ from preparation_for_training import change_Sakuya_arch
 def prepare_files_for_zoominterpolation_step(sub_save_location, zoomfactor):
     
     img_folder_path_interpolate = sub_save_location
-    shutil.rmtree("/content/ZoomInterpolation/test_example")
-    shutil.copytree(img_folder_path_interpolate,"/content/ZoomInterpolation/test_example")
-    os.chdir("/content/ZoomInterpolation/codes")
+    shutil.rmtree("/home/user2/project/CAFI/ZS4Mic/test_example")
+    shutil.copytree(img_folder_path_interpolate,"/home/user2/project/CAFI/ZS4Mic/test_example")
+    os.chdir("/home/user2/project/CAFI/ZS4Mic/codes")
 
     # if use_fine_tuned_models:
     #   if zoomfactor ==1:
@@ -439,9 +439,9 @@ def prepare_files_for_zoominterpolation_step(sub_save_location, zoomfactor):
     #     change_train_file(zoomfactor, pretrained_model_path)
     #     change_Sakuya_arch(zoomfactor)
     # else:
-    pretrained_model_path_1x = "/content/ZoomInterpolation/experiments/pretrained_models/pretrained_1x.pth"
-    pretrained_model_path_2x = "/content/ZoomInterpolation/experiments/pretrained_models/pretrained_2x.pth"
-    pretrained_model_path_4x = "/content/ZoomInterpolation/experiments/pretrained_models/pretrained_4x.pth"
+    pretrained_model_path_1x = "/home/user2/project/CAFI/ZS4Mic/experiments/pretrained_models/pretrained_1x.pth"
+    pretrained_model_path_2x = "/home/user2/project/CAFI/ZS4Mic/experiments/pretrained_models/pretrained_2x.pth"
+    pretrained_model_path_4x = "/home/user2/project/CAFI/ZS4Mic/experiments/pretrained_models/pretrained_4x.pth"
     if zoomfactor ==1:
       change_train_file(zoomfactor, pretrained_model_path_1x)
       change_Sakuya_arch(zoomfactor)
@@ -454,7 +454,7 @@ def prepare_files_for_zoominterpolation_step(sub_save_location, zoomfactor):
     return img_folder_path_interpolate
 
 import sys
-sys.path.insert(0,'/content/ZoomInterpolation/load_functions')
+sys.path.insert(0,'/home/user2/project/CAFI/ZS4Mic/load_functions')
 from reconstruct_image import get_file_list
 from reconstruct_image import get_folder_list
 from reconstruct_image import save_image
@@ -512,7 +512,7 @@ def save_interpolated_image(interpolate_location, Saving_path, log_path_file, di
     elif img_multiplyer == 16:
         multiplyer = 4
         product_image_shape = divisor *multiplyer*zoomfactor
-
+        
     print(f"img_list is: {img_list}")
     print(f"fraction_list is: {fraction_list}")
     # print(f"Permutation_list is: {permutation_list}")

@@ -1,7 +1,7 @@
 import os
 import os.path as osp
 import sys
-sys.path.insert(0,'/content/ZoomInterpolation/codes')
+sys.path.insert(0,'/home/user2/project/CAFI/ZS4Mic/codes')
 import cv2
 import numpy as np
 from data.util import imresize_np
@@ -58,7 +58,7 @@ def prep_folder_structure(new_path):
   '''this function creates the same folder and subfolder structure as provided in the sequences folder in a 
   new given new_location path based on a master_sep_guide.txt file which recombined all folders from test and train'''
   print(f"Prepare Folder structure: {new_path}")
-  with open("/content/master_sep_guide.txt", "r") as temp:
+  with open("/home/user2/project/CAFI/ZS4Mic/master_sep_guide.txt", "r") as temp:
     for line in tqdm(temp):
         one = line[:-1].split("/")[0]
         two = line[:-1].split("/")[1]
@@ -75,7 +75,7 @@ def get_all_filepaths(input_path, N_frames):
     '''This function gets the paths based on the folder and the N_frames provided'''
     print("Execute: get_all_filepaths")
     flist = []
-    with open("/content/master_sep_guide.txt", "r") as temp:
+    with open("/home/user2/project/CAFI/ZS4Mic/master_sep_guide.txt", "r") as temp:
       for line in tqdm(temp):
         folder_path = os.path.join(input_path,line[:-1])
         for i in range(1,N_frames+1):
@@ -103,7 +103,7 @@ def create_folder_list_from_txt_guide(testlist_txt, trainlist_txt):
         list_path_list.append(line)
     list_path_list.sort()
 
-    with open("/content/master_sep_guide.txt", "w") as temp:
+    with open("/home/user2/project/CAFI/ZS4Mic/master_sep_guide.txt", "w") as temp:
       for line in list_path_list:
         temp.write(line)
 
@@ -215,7 +215,7 @@ import numpy as np
 import lmdb
 import cv2
 from tqdm import tqdm
-sys.path.insert(0,'/content/ZoomInterpolation/codes')
+sys.path.insert(0,'/home/user2/project/CAFI/ZS4Mic/codes')
 import data.util as data_util
 import utils.util as util
 
@@ -330,7 +330,7 @@ def save_to_lmbd(img_folder, test_or_train, H_dst, W_dst, batch, mode, scale_fac
 
 def change_Sakuya_arch(training_scale):
   """This function changes the network to perform a 4x 2x or no zoom magnification in: Sakuya_arch.py"""
-  file_path_3 = "/content/ZoomInterpolation/codes/models/modules/Sakuya_arch.py"
+  file_path_3 = "/home/user2/project/CAFI/ZS4Mic/codes/models/modules/Sakuya_arch.py"
   fh_3, abs_path_3 = mkstemp()
   with fdopen(fh_3,'w') as new_file:
     with open(file_path_3) as old_file:
@@ -362,7 +362,7 @@ def change_dataset_file(HR_px, LR_px, training_scale, original_trainingset = Fal
     factor = 2
   elif training_scale == 4:
     factor = 1
-  file_path_2 = "/content/ZoomInterpolation/codes/data/Vimeo7_dataset.py"
+  file_path_2 = "/home/user2/project/CAFI/ZS4Mic/codes/data/Vimeo7_dataset.py"
   fh_2, abs_path_2 = mkstemp()
   with fdopen(fh_2,'w') as new_file:
     with open(file_path_2) as old_file:
@@ -394,7 +394,7 @@ def change_dataset_file(HR_px, LR_px, training_scale, original_trainingset = Fal
 
 def change_train_yml(LMBD_HR, LMBD_LR, training_scale, cache_keys, niter, use_pretrained_model, pretrained_network_pth, pretrained_network_state, save_checkpoint_freq, warmup_iter, debug, learning_rate):
     """This function changes the parameters in the train_zml.yml files"""
-    file_path = "/content/ZoomInterpolation/codes/options/train/train_zsm.yml"
+    file_path = "/home/user2/project/CAFI/ZS4Mic/codes/options/train/train_zsm.yml"
     if training_scale == 4:
         GT_size = "128"
         LQ_size = "32" 
@@ -470,12 +470,15 @@ def change_train_yml(LMBD_HR, LMBD_LR, training_scale, cache_keys, niter, use_pr
     
 def change_train_file(backup_location):
   """This function changes the resolution value in the file: Vimeo7_dataset.py"""
-  file_path_2 = "/content/ZoomInterpolation/codes/train.py"
+  file_path_2 = "/home/user2/project/CAFI/ZS4Mic/codes/train.py"
   fh_2, abs_path_2 = mkstemp()
   with fdopen(fh_2,'w') as new_file:
     with open(file_path_2) as old_file:
       for counter, line in enumerate(old_file):
-        if counter ==190:
+        if counter ==189:
+          destination = f'                    source = "{os.path.dirname(backup_location)}/experiments/LunaTokis_scratch_b16p32f5b40n7l1_600k_Vimeo"\n'
+          new_file.write(destination)
+        elif counter ==190:
           destination = f'                    destination = "{backup_location}/LunaTokis_scratch_b16p32f5b40n7l1_600k_Vimeo"\n'
           new_file.write(destination)
         else:
@@ -494,7 +497,7 @@ import shutil
 import os
 from tqdm import tqdm
 import sys
-sys.path.insert(0,'/content/ZoomInterpolation/load_functions')
+sys.path.insert(0,'/home/user2/project/CAFI/ZS4Mic/load_functions')
 
   
 def run_split_sequence(mode, scale_factor, save_HR, save_LR, test_or_train, outPath_test):
