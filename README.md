@@ -2,7 +2,13 @@
 
 Link to the paper: [link](https://doi.org/10.1101/2021.11.02.466664)
 
-## Please replace `/home/user2/project/CAFI` to your own path.
+## Usage for ZoomingSlowMo_4_Microscopy_V2.ipynb
+
+1. Replace `/home/user2/project/CAFI` to your own path for the whole project including `ZoomingSlowMo_4_Microscopy_V2.ipynb` and `ZS4Mic/load_functions`.
+2. This script is already adapted for Pytorch 1.11 and later. Run `python ZS4Mic/codes/models/modules/dcn/setup.py build develop` in the terminal to build the DCN module.
+3. Run `python stack_tiff.py "path/to/tiff/dir" "ZS4Mic/demo/dirname/filename.tif"` to stack the tiff files into a single file.
+4. Run the notebook `ZoomingSlowMo_4_Microscopy_V2.ipynb` to use the Zooming SlowMo model for microscopy. Only need to run `4. Training` to train the model, and `5. Perform Interpolation and/or Lateral Image upscaling` to perform the interpolation.
+5. Run `python split_tiff.py "ZS4Mic/demo/dirname/filename.tif" "path/to/tiff/dir"` to split the tiff file into individual frames.
 
 ## What is this?
 Content-aware frame interpolation (CAFI) provides a Deep Learning-based temporal super-resolution for fast bioimaging. It increases the frame rate of any microscope modality by interpolating an image in between two consecutive images via “intelligent” interpolation, providing a 2x increase in temporal or/and axial resolution. Here we provide the modified repositories of DAIN and Zooming SlowMo used in the CAFI 4 Microscopy Google Colab notebooks.
